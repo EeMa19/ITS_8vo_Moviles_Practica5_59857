@@ -25,9 +25,8 @@ const App = () => {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack initialRouteName="login">
         <Stack.Screen
-          name="login"
+          name="index"
           options={{
             title: 'Iniciar Sesión',
             headerShown: false,
@@ -41,7 +40,7 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name="index"
+          name="notas"
           options={{
             title: 'Mis Notas',
           }}
@@ -52,7 +51,6 @@ const App = () => {
             title: 'Crear nueva nota',
           }}
         />
-      </Stack>
     </ThemeProvider>
   );
 };

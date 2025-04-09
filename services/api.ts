@@ -1,7 +1,7 @@
 // services/api.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = 'https://reputation-cheese-when-jennifer.trycloudflare.com/api'; // Ajusta si el túnel cambia
+const API_BASE_URL = 'https://bad-plugins-az-adipex.trycloudflare.com';
 
 interface Tarea {
   id: number;
@@ -10,15 +10,13 @@ interface Tarea {
   completada: boolean;
 }
 
-// Funciones auxiliares para manejar el token
 const getToken = async () => await AsyncStorage.getItem('token');
 const setToken = async (token: string) => await AsyncStorage.setItem('token', token);
 
 export const api = {
-  // Login: Devuelve el token y lo guarda
   login: async (username: string, password: string): Promise<string> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -36,10 +34,9 @@ export const api = {
     }
   },
 
-  // Registro: Solo registra, no devuelve token
   register: async (username: string, password: string): Promise<void> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -54,12 +51,13 @@ export const api = {
     }
   },
 
-  // Obtener todas las tareas
   getTareas: async (): Promise<Tarea[]> => {
     const token = await getToken();
+    if (!token) throw new Error('No hay token de autenticación');
     try {
-      const response = await fetch(`${API_BASE_URL}/tareas`, {
+      const response = await fetch(`${API_BASE_URL}/api/tareas`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -74,12 +72,13 @@ export const api = {
     }
   },
 
-  // Obtener una tarea por ID
   getTarea: async (id: number): Promise<Tarea> => {
     const token = await getToken();
+    if (!token) throw new Error('No hay token de autenticación');
     try {
-      const response = await fetch(`${API_BASE_URL}/tareas/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/tareas/${id}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -94,11 +93,11 @@ export const api = {
     }
   },
 
-  // Crear una nueva tarea
   createTarea: async (tarea: Omit<Tarea, 'id'>): Promise<Tarea> => {
     const token = await getToken();
+    if (!token) throw new Error('No hay token de autenticación');
     try {
-      const response = await fetch(`${API_BASE_URL}/tareas`, {
+      const response = await fetch(`${API_BASE_URL}/api/tareas`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,11 +116,11 @@ export const api = {
     }
   },
 
-  // Actualizar una tarea existente
   updateTarea: async (id: number, tarea: Partial<Tarea>): Promise<Tarea> => {
     const token = await getToken();
+    if (!token) throw new Error('No hay token de autenticación');
     try {
-      const response = await fetch(`${API_BASE_URL}/tareas/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/tareas/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -140,13 +139,14 @@ export const api = {
     }
   },
 
-  // Eliminar una tarea
   deleteTarea: async (id: number): Promise<void> => {
     const token = await getToken();
+    if (!token) throw new Error('No hay token de autenticación');
     try {
-      const response = await fetch(`${API_BASE_URL}/tareas/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/tareas/${id}`, {
         method: 'DELETE',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
