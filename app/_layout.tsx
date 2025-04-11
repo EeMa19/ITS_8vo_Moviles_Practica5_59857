@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { Stack } from 'expo-router';
 
-const App = () => {
+export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -25,6 +25,7 @@ const App = () => {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack>
         <Stack.Screen
           name="index"
           options={{
@@ -51,8 +52,7 @@ const App = () => {
             title: 'Crear nueva nota',
           }}
         />
+      </Stack>
     </ThemeProvider>
   );
-};
-
-export default App;
+}
