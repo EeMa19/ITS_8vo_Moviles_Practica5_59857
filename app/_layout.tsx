@@ -10,6 +10,8 @@ import { Stack } from 'expo-router';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
+    CyberPunk: require('../assets/fonts/cyber.otf'),
+    terminal: require('../assets/fonts/whitrabt.ttf'),
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
